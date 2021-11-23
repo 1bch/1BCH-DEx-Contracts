@@ -43,21 +43,27 @@ library PancakeLibrary {
     }
 
     // given an input amount of an asset and pair reserves, returns the maximum output amount of the other asset
-    function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) internal pure returns (uint amountOut) {
+    function getAmountOut(address factory, address pair, uint amountIn, uint reserveIn, uint reserveOut) internal view returns (uint amountOut) {
+        uint outModifyer = 1000 - IPancakeFactory(factory).getExchangeFee(pair);
+        require(outModifyer <= 1000 && outModifyer >= 0, 'PancakeLibrary: INVALID_FEE'); // 1000 - 0%, 998 - 0.2%, 990 - 1%, 900 - 10%
         require(amountIn > 0, 'PancakeLibrary: INSUFFICIENT_INPUT_AMOUNT');
         require(reserveIn > 0 && reserveOut > 0, 'PancakeLibrary: INSUFFICIENT_LIQUIDITY');
-        uint amountInWithFee = amountIn.mul(998);
+        //uint amountInWithFee = amountIn.mul(998);
+        uint amountInWithFee = amountIn.mul(outModifyer);
         uint numerator = amountInWithFee.mul(reserveOut);
         uint denominator = reserveIn.mul(1000).add(amountInWithFee);
         amountOut = numerator / denominator;
     }
 
     // given an output amount of an asset and pair reserves, returns a required input amount of the other asset
-    function getAmountIn(uint amountOut, uint reserveIn, uint reserveOut) internal pure returns (uint amountIn) {
+    function getAmountIn(address factory, address pair, uint amountOut, uint reserveIn, uint reserveOut) internal view returns (uint amountIn) {
+        uint outModifyer = 1000 - IPancakeFactory(factory).getExchangeFee(pair);
+        require(outModifyer <= 1000 && outModifyer >= 0, 'PancakeLibrary: INVALID_FEE'); // 1000 - 0%, 998 - 0.2%, 990 - 1%, 900 - 10%
         require(amountOut > 0, 'PancakeLibrary: INSUFFICIENT_OUTPUT_AMOUNT');
         require(reserveIn > 0 && reserveOut > 0, 'PancakeLibrary: INSUFFICIENT_LIQUIDITY');
         uint numerator = reserveIn.mul(amountOut).mul(1000);
-        uint denominator = reserveOut.sub(amountOut).mul(998);
+        //uint denominator = reserveOut.sub(amountOut).mul(998);
+        uint denominator = reserveOut.sub(amountOut).mul(outModifyer);
         amountIn = (numerator / denominator).add(1);
     }
 
@@ -68,7 +74,8 @@ library PancakeLibrary {
         amounts[0] = amountIn;
         for (uint i; i < path.length - 1; i++) {
             (uint reserveIn, uint reserveOut) = getReserves(factory, path[i], path[i + 1]);
-            amounts[i + 1] = getAmountOut(amounts[i], reserveIn, reserveOut);
+            address pair = pairFor(factory, path[i], path[i + 1]);
+            amounts[i + 1] = getAmountOut(factory, pair, amounts[i], reserveIn, reserveOut);
         }
     }
 
@@ -79,7 +86,8 @@ library PancakeLibrary {
         amounts[amounts.length - 1] = amountOut;
         for (uint i = path.length - 1; i > 0; i--) {
             (uint reserveIn, uint reserveOut) = getReserves(factory, path[i - 1], path[i]);
-            amounts[i - 1] = getAmountIn(amounts[i], reserveIn, reserveOut);
+            address pair = pairFor(factory, path[i], path[i + 1]);
+            amounts[i - 1] = getAmountIn(factory, pair, amounts[i], reserveIn, reserveOut);
         }
     }
 }

@@ -329,7 +329,7 @@ contract PancakeRouter is IPancakeRouter02 {
             (uint reserve0, uint reserve1,) = pair.getReserves();
             (uint reserveInput, uint reserveOutput) = input == token0 ? (reserve0, reserve1) : (reserve1, reserve0);
             amountInput = IERC20(input).balanceOf(address(pair)).sub(reserveInput);
-            amountOutput = PancakeLibrary.getAmountOut(amountInput, reserveInput, reserveOutput);
+            amountOutput = PancakeLibrary.getAmountOut(factory, address(pair), amountInput, reserveInput, reserveOutput);
             }
             (uint amount0Out, uint amount1Out) = input == token0 ? (uint(0), amountOutput) : (amountOutput, uint(0));
             address to = i < path.length - 2 ? PancakeLibrary.pairFor(factory, output, path[i + 2]) : _to;
@@ -406,22 +406,22 @@ contract PancakeRouter is IPancakeRouter02 {
 
     function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut)
         public
-        pure
+        view
         virtual
         override
         returns (uint amountOut)
     {
-        return PancakeLibrary.getAmountOut(amountIn, reserveIn, reserveOut);
+        return PancakeLibrary.getAmountOut(factory, address(0), amountIn, reserveIn, reserveOut);
     }
 
     function getAmountIn(uint amountOut, uint reserveIn, uint reserveOut)
         public
-        pure
+        view
         virtual
         override
         returns (uint amountIn)
     {
-        return PancakeLibrary.getAmountIn(amountOut, reserveIn, reserveOut);
+        return PancakeLibrary.getAmountIn(factory, address(0), amountOut, reserveIn, reserveOut);
     }
 
     function getAmountsOut(uint amountIn, address[] memory path)

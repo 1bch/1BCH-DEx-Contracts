@@ -88,15 +88,21 @@ contract PancakePair is IPancakePair, PancakeERC20 {
     // if fee is on, mint liquidity equivalent to 1/6th of the growth in sqrt(k)
     function _mintFee(uint112 _reserve0, uint112 _reserve1) private returns (bool feeOn) {
         address feeTo = IPancakeFactory(factory).feeTo();
-        feeOn = feeTo != address(0);
+        feeOn = feeTo != address(0); // if set to null then there are no fees deduced
         uint _kLast = kLast; // gas savings
         if (feeOn) {
+            uint feeShare = IPancakeFactory(factory).feeShare();
+            //require(feeShare >= 1 && feeShare <= 1000, 'Pancake: INVALID_SHARE'); // 1 - 100%, 100 - 1%, 1000 - 0.1%
+            require(feeShare >= 0 && feeShare <= 1000, 'Pancake: invalid feeShare'); // in promil 
             if (_kLast != 0) {
                 uint rootK = Math.sqrt(uint(_reserve0).mul(_reserve1));
                 uint rootKLast = Math.sqrt(_kLast);
                 if (rootK > rootKLast) {
-                    uint numerator = totalSupply.mul(rootK.sub(rootKLast));
-                    uint denominator = rootK.mul(3).add(rootKLast);
+                    //uint numerator = totalSupply.mul(rootK.sub(rootKLast));
+                    //uint denominator = rootK.mul(3).add(rootKLast);
+                    //uint denominator = rootK.mul(feeShare).add(rootKLast);
+                    uint numerator = totalSupply.mul(feeShare).mul(rootK.sub(rootKLast));
+                    uint denominator = rootK.mul(1000).add(rootKLast);
                     uint liquidity = numerator / denominator;
                     if (liquidity > 0) _mint(feeTo, liquidity);
                 }

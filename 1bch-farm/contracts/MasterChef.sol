@@ -97,7 +97,7 @@ contract MasterChef is Ownable {
         cake = _cake;
         syrup = _syrup;
         devaddr = _devaddr;
-        devshare = 100; // value in promille so 10%
+        devshare = 100; // value in per mille so 10%
         cakePerBlock = _cakePerBlock;
         startBlock = _startBlock;
 
@@ -339,8 +339,8 @@ contract MasterChef is Ownable {
         devaddr = _devaddr;
     }
     
-    // Update dev divider
-    function updateDivider(uint _devshare) public {
+    // Update dev share in per mille
+    function setDevShare(uint _devshare) public {
         require(msg.sender == devaddr, "dev: wut?");
         devshare = _devshare;
     }

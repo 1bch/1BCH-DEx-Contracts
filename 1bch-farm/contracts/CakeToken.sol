@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.6.12;
 
-import "@pancakeswap/pancake-swap-lib/contracts/token/BEP20/BEP20.sol";
+import "@pancakeswap/1bch-swap-lib/contracts/token/BEP20/BEP20.sol";
 
 // CakeToken with Governance.
 contract CakeToken is BEP20('rBCH Token', 'rBCH') {

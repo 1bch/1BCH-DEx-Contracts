@@ -1,6 +1,6 @@
 pragma solidity =0.6.6;
 
-import '@pancakeswap/pancake-swap-core/contracts/interfaces/IPancakeCallee.sol';
+import '@pancakeswap/1bch-swap-core/contracts/interfaces/IPancakeCallee.sol';
 
 import '../libraries/PancakeLibrary.sol';
 import '../interfaces/V1/IUniswapV1Factory.sol';

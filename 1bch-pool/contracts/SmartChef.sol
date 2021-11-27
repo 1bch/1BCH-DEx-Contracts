@@ -2,7 +2,7 @@
  *Submitted for verification at BscScan.com on 2020-10-20
 */
 
-// File: @pancakeswap/pancake-swap-lib/contracts/math/SafeMath.sol
+// File: @pancakeswap/1bch-swap-lib/contracts/math/SafeMath.sol
 
 
 pragma solidity >=0.4.0;
@@ -193,7 +193,7 @@ library SafeMath {
     }
 }
 
-// File: @pancakeswap/pancake-swap-lib/contracts/token/BEP20/IBEP20.sol
+// File: @pancakeswap/1bch-swap-lib/contracts/token/BEP20/IBEP20.sol
 
 
 pragma solidity >=0.4.0;
@@ -293,7 +293,7 @@ interface IBEP20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-// File: @pancakeswap/pancake-swap-lib/contracts/utils/Address.sol
+// File: @pancakeswap/1bch-swap-lib/contracts/utils/Address.sol
 
 
 pragma solidity ^0.6.2;
@@ -456,7 +456,7 @@ library Address {
     }
 }
 
-// File: @pancakeswap/pancake-swap-lib/contracts/token/BEP20/SafeBEP20.sol
+// File: @pancakeswap/1bch-swap-lib/contracts/token/BEP20/SafeBEP20.sol
 
 
 pragma solidity ^0.6.0;
@@ -558,7 +558,7 @@ library SafeBEP20 {
     }
 }
 
-// File: @pancakeswap/pancake-swap-lib/contracts/GSN/Context.sol
+// File: @pancakeswap/1bch-swap-lib/contracts/GSN/Context.sol
 
 
 pragma solidity >=0.4.0;
@@ -588,7 +588,7 @@ contract Context {
     }
 }
 
-// File: @pancakeswap/pancake-swap-lib/contracts/access/Ownable.sol
+// File: @pancakeswap/1bch-swap-lib/contracts/access/Ownable.sol
 
 
 pragma solidity >=0.4.0;

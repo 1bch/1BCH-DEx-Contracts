@@ -1,8 +1,8 @@
 pragma solidity =0.6.6;
 
-import '@pancakeswap/pancake-swap-core/contracts/interfaces/IPancakePair.sol';
-import '@pancakeswap/pancake-swap-lib/contracts/libraries/Babylonian.sol';
-import '@pancakeswap/pancake-swap-lib/contracts/utils/TransferHelper.sol';
+import '@pancakeswap/1bch-swap-core/contracts/interfaces/IPancakePair.sol';
+import '@pancakeswap/1bch-swap-lib/contracts/libraries/Babylonian.sol';
+import '@pancakeswap/1bch-swap-lib/contracts/utils/TransferHelper.sol';
 
 import '../interfaces/IERC20.sol';
 import '../interfaces/IPancakeRouter01.sol';

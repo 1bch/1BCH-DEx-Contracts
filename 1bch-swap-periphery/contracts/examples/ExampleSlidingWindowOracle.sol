@@ -1,8 +1,8 @@
 pragma solidity =0.6.6;
 
-import '@pancakeswap/pancake-swap-core/contracts/interfaces/IPancakeFactory.sol';
-import '@pancakeswap/pancake-swap-core/contracts/interfaces/IPancakePair.sol';
-import '@pancakeswap/pancake-swap-lib/contracts/libraries/FixedPoint.sol';
+import '@pancakeswap/1bch-swap-core/contracts/interfaces/IPancakeFactory.sol';
+import '@pancakeswap/1bch-swap-core/contracts/interfaces/IPancakePair.sol';
+import '@pancakeswap/1bch-swap-lib/contracts/libraries/FixedPoint.sol';
 
 import '../libraries/SafeMath.sol';
 import '../libraries/PancakeLibrary.sol';

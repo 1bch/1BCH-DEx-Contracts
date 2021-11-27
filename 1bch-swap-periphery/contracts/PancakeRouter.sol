@@ -1,7 +1,7 @@
 pragma solidity =0.6.6;
 
-import '@pancakeswap/pancake-swap-core/contracts/interfaces/IPancakeFactory.sol';
-import '@pancakeswap/pancake-swap-lib/contracts/utils/TransferHelper.sol';
+import '@pancakeswap/1bch-swap-core/contracts/interfaces/IPancakeFactory.sol';
+import '@pancakeswap/1bch-swap-lib/contracts/utils/TransferHelper.sol';
 
 import './interfaces/IPancakeRouter02.sol';
 import './libraries/PancakeLibrary.sol';

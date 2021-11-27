@@ -1,7 +1,7 @@
 pragma solidity >=0.5.0;
 
-import '@pancakeswap/pancake-swap-core/contracts/interfaces/IPancakePair.sol';
-import '@pancakeswap/pancake-swap-core/contracts/interfaces/IPancakeFactory.sol';
+import '@pancakeswap/1bch-swap-core/contracts/interfaces/IPancakePair.sol';
+import '@pancakeswap/1bch-swap-core/contracts/interfaces/IPancakeFactory.sol';
 
 import "./SafeMath.sol";
 

@@ -93,7 +93,7 @@ contract PancakePair is IPancakePair, PancakeERC20 {
         if (feeOn) {
             uint feeShare = IPancakeFactory(factory).feeShare();
             //require(feeShare >= 1 && feeShare <= 1000, 'Pancake: INVALID_SHARE'); // 1 - 100%, 100 - 1%, 1000 - 0.1%
-            require(feeShare >= 0 && feeShare <= 1000, 'Pancake: invalid feeShare'); // in promil 
+            require(feeShare >= 0 && feeShare <= 1000, 'Pancake: INVALID_SHARE'); // in promil 
             if (_kLast != 0) {
                 uint rootK = Math.sqrt(uint(_reserve0).mul(_reserve1));
                 uint rootKLast = Math.sqrt(_kLast);

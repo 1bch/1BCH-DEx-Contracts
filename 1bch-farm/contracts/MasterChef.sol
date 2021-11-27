@@ -1,9 +1,9 @@
 pragma solidity 0.6.12;
 
-import '@pancakeswap/pancake-swap-lib/contracts/math/SafeMath.sol';
-import '@pancakeswap/pancake-swap-lib/contracts/token/BEP20/IBEP20.sol';
-import '@pancakeswap/pancake-swap-lib/contracts/token/BEP20/SafeBEP20.sol';
-import '@pancakeswap/pancake-swap-lib/contracts/access/Ownable.sol';
+import '@pancakeswap/1bch-swap-lib/contracts/math/SafeMath.sol';
+import '@pancakeswap/1bch-swap-lib/contracts/token/BEP20/IBEP20.sol';
+import '@pancakeswap/1bch-swap-lib/contracts/token/BEP20/SafeBEP20.sol';
+import '@pancakeswap/1bch-swap-lib/contracts/access/Ownable.sol';
 
 import "./CakeToken.sol";
 import "./SyrupBar.sol";
@@ -65,6 +65,8 @@ contract MasterChef is Ownable {
     SyrupBar public syrup;
     // Dev address.
     address public devaddr;
+    // dev share
+    uint public devshare;
     // CAKE tokens created per block.
     uint256 public cakePerBlock;
     // Bonus muliplier for early cake makers.
@@ -95,6 +97,7 @@ contract MasterChef is Ownable {
         cake = _cake;
         syrup = _syrup;
         devaddr = _devaddr;
+        devshare = 100; // value in promille so 10%
         cakePerBlock = _cakePerBlock;
         startBlock = _startBlock;
 
@@ -178,6 +181,12 @@ contract MasterChef is Ownable {
         pool.lpToken = newLpToken;
     }
 
+    // Migrate control over the tokens to a new master. Can only be called by the owner.
+    function migrateControl(address _controller) public onlyOwner {
+        cake.transferOwnership(_controller);
+        syrup.transferOwnership(_controller);
+    }
+
     // Return reward multiplier over the given _from to _to block.
     function getMultiplier(uint256 _from, uint256 _to) public view returns (uint256) {
         return _to.sub(_from).mul(BONUS_MULTIPLIER);
@@ -219,7 +228,7 @@ contract MasterChef is Ownable {
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 cakeReward = multiplier.mul(cakePerBlock).mul(pool.allocPoint).div(totalAllocPoint);
-        cake.mint(devaddr, cakeReward.div(10));
+        cake.mint(devaddr, cakeReward.mul(devshare).div(1000)); // default: 100 / 1000 -> .div(10)); 
         cake.mint(address(syrup), cakeReward);
         pool.accCakePerShare = pool.accCakePerShare.add(cakeReward.mul(1e12).div(lpSupply));
         pool.lastRewardBlock = block.number;
@@ -325,8 +334,14 @@ contract MasterChef is Ownable {
     }
 
     // Update dev address by the previous dev.
-    function dev(address _devaddr) public {
+    function setDevAddress(address _devaddr) public {
         require(msg.sender == devaddr, "dev: wut?");
         devaddr = _devaddr;
+    }
+    
+    // Update dev divider
+    function updateDivider(uint _devshare) public {
+        require(msg.sender == devaddr, "dev: wut?");
+        devshare = _devshare;
     }
 }

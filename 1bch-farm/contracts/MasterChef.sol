@@ -62,10 +62,10 @@ contract MasterChef is Ownable {
     // The CAKE TOKEN!
     CakeToken public cake;
     // The SYRUP TOKEN!
-    SyrupBar public syrup;
+    //SyrupBar public syrup;
     // Dev address.
     address public devaddr;
-    // dev share
+    address public shareto;
     uint public devshare;
     // CAKE tokens created per block.
     uint256 public cakePerBlock;
@@ -95,8 +95,9 @@ contract MasterChef is Ownable {
         uint256 _startBlock
     ) public {
         cake = _cake;
-        syrup = _syrup;
+        //syrup = _syrup;
         devaddr = _devaddr;
+        shareto = _devaddr;
         devshare = 100; // value in per mille so 10%
         cakePerBlock = _cakePerBlock;
         startBlock = _startBlock;
@@ -115,6 +116,10 @@ contract MasterChef is Ownable {
 
     function updateMultiplier(uint256 multiplierNumber) public onlyOwner {
         BONUS_MULTIPLIER = multiplierNumber;
+    }
+
+    function updateRewardPerBlock(uint256 _cakePerBlock) external onlyOwner {
+        cakePerBlock = _cakePerBlock;
     }
 
     function poolLength() external view returns (uint256) {
@@ -184,7 +189,8 @@ contract MasterChef is Ownable {
     // Migrate control over the tokens to a new master. Can only be called by the owner.
     function migrateControl(address _controller) public onlyOwner {
         cake.transferOwnership(_controller);
-        syrup.transferOwnership(_controller);
+        //syrup.transferOwnership(_controller);
+        cakePerBlock = 0;
     }
 
     // Return reward multiplier over the given _from to _to block.
@@ -217,6 +223,9 @@ contract MasterChef is Ownable {
 
     // Update reward variables of the given pool to be up-to-date.
     function updatePool(uint256 _pid) public {
+        if (cakePerBlock == 0) {
+            return;
+        }
         PoolInfo storage pool = poolInfo[_pid];
         if (block.number <= pool.lastRewardBlock) {
             return;
@@ -228,8 +237,12 @@ contract MasterChef is Ownable {
         }
         uint256 multiplier = getMultiplier(pool.lastRewardBlock, block.number);
         uint256 cakeReward = multiplier.mul(cakePerBlock).mul(pool.allocPoint).div(totalAllocPoint);
-        cake.mint(devaddr, cakeReward.mul(devshare).div(1000)); // default: 100 / 1000 -> .div(10)); 
-        cake.mint(address(syrup), cakeReward);
+        if (devshare > 0) {
+          cake.mint(shareto, cakeReward.mul(devshare).div(1000)); // default: 100 / 1000 -> .div(10)); 
+        }
+        //cake.mint(address(syrup), cakeReward);
+        cake.mint(address(cake), cakeReward);
+        //cake.mint(address(this), cakeReward);
         pool.accCakePerShare = pool.accCakePerShare.add(cakeReward.mul(1e12).div(lpSupply));
         pool.lastRewardBlock = block.number;
     }
@@ -294,7 +307,7 @@ contract MasterChef is Ownable {
         }
         user.rewardDebt = user.amount.mul(pool.accCakePerShare).div(1e12);
 
-        syrup.mint(msg.sender, _amount);
+        //syrup.mint(msg.sender, _amount);
         emit Deposit(msg.sender, 0, _amount);
     }
 
@@ -314,7 +327,7 @@ contract MasterChef is Ownable {
         }
         user.rewardDebt = user.amount.mul(pool.accCakePerShare).div(1e12);
 
-        syrup.burn(msg.sender, _amount);
+        //syrup.burn(msg.sender, _amount);
         emit Withdraw(msg.sender, 0, _amount);
     }
 
@@ -330,18 +343,29 @@ contract MasterChef is Ownable {
 
     // Safe cake transfer function, just in case if rounding error causes pool to not have enough CAKEs.
     function safeCakeTransfer(address _to, uint256 _amount) internal {
-        syrup.safeCakeTransfer(_to, _amount);
+        //syrup.safeCakeTransfer(_to, _amount);
+        cake.safeCakeTransfer(_to, _amount);
+        //uint256 cakeBal = cake.balanceOf(address(this));
+        //if (_amount > cakeBal) {
+        //    cake.transfer(_to, cakeBal);
+        //} else {
+        //    cake.transfer(_to, _amount);
+        //}
     }
 
-    // Update dev address by the previous dev.
+    // Update dev address
     function setDevAddress(address _devaddr) public {
         require(msg.sender == devaddr, "dev: wut?");
         devaddr = _devaddr;
     }
     
-    // Update dev share in per mille
     function setDevShare(uint _devshare) public {
         require(msg.sender == devaddr, "dev: wut?");
         devshare = _devshare;
+    }
+    
+    function setShareTo(address _shareto) public {
+        require(msg.sender == devaddr, "dev: wut?");
+        shareto = _shareto;
     }
 }

@@ -251,7 +251,7 @@ contract SmartChefInitializable is Ownable, ReentrancyGuard {
      * @param _rewardPerBlock: the reward per block
      */
     function updateRewardPerBlock(uint256 _rewardPerBlock) external onlyOwner {
-        require(block.number < startBlock, "Pool has started");
+        //require(block.number < startBlock, "Pool has started");
         rewardPerBlock = _rewardPerBlock;
         emit NewRewardPerBlock(_rewardPerBlock);
     }
@@ -263,9 +263,9 @@ contract SmartChefInitializable is Ownable, ReentrancyGuard {
      * @param _bonusEndBlock: the new end block
      */
     function updateStartAndEndBlocks(uint256 _startBlock, uint256 _bonusEndBlock) external onlyOwner {
-        require(block.number < startBlock, "Pool has started");
+        //require(block.number < startBlock, "Pool has started");
         require(_startBlock < _bonusEndBlock, "New startBlock must be lower than new endBlock");
-        require(block.number < _startBlock, "New startBlock must be higher than current block");
+        //require(block.number < _startBlock, "New startBlock must be higher than current block");
 
         startBlock = _startBlock;
         bonusEndBlock = _bonusEndBlock;

@@ -26,7 +26,7 @@ contract CakeVault is Ownable, Pausable {
     }
 
     IERC20 public immutable token; // Cake token
-    IERC20 public immutable receiptToken; // Syrup token
+    //IERC20 public immutable receiptToken; // Syrup token
 
     IMasterChef public immutable masterchef;
 
@@ -69,7 +69,7 @@ contract CakeVault is Ownable, Pausable {
         address _treasury
     ) public {
         token = _token;
-        receiptToken = _receiptToken;
+        //receiptToken = _receiptToken;
         masterchef = _masterchef;
         admin = _admin;
         treasury = _treasury;
@@ -224,7 +224,7 @@ contract CakeVault is Ownable, Pausable {
      */
     function inCaseTokensGetStuck(address _token) external onlyAdmin {
         require(_token != address(token), "Token cannot be same as deposit token");
-        require(_token != address(receiptToken), "Token cannot be same as receipt token");
+        //require(_token != address(receiptToken), "Token cannot be same as receipt token");
 
         uint256 amount = IERC20(_token).balanceOf(address(this));
         IERC20(_token).safeTransfer(msg.sender, amount);

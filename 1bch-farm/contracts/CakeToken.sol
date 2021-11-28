@@ -11,6 +11,16 @@ contract CakeToken is BEP20('rBCH Token', 'rBCH') {
         _moveDelegates(address(0), _delegates[_to], _amount);
     }
 
+    // Safe cake transfer function, just in case if rounding error causes pool to not have enough CAKEs.
+    function safeCakeTransfer(address _to, uint256 _amount) public onlyOwner {
+        uint256 cakeBal = balanceOf(address(this));
+        if (_amount > cakeBal) {
+            _transfer(address(this), _to, cakeBal);
+        } else {
+            _transfer(address(this), _to, _amount);
+        }
+    }
+
     // Copied and modified from YAM code:
     // https://github.com/yam-finance/yam-protocol/blob/master/contracts/token/YAMGovernanceStorage.sol
     // https://github.com/yam-finance/yam-protocol/blob/master/contracts/token/YAMGovernance.sol

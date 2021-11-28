@@ -20,6 +20,10 @@ contract CakeToken is BEP20('rBCH Token', 'rBCH') {
             _transfer(address(this), _to, _amount);
         }
     }
+    
+    function burn(uint256 amount) public virtual {
+        _burn(msg.sender, amount);
+    }
 
     // Copied and modified from YAM code:
     // https://github.com/yam-finance/yam-protocol/blob/master/contracts/token/YAMGovernanceStorage.sol

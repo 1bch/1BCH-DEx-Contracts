@@ -1,5 +1,6 @@
 
-´´´
+```
+// rBCH reward stuff
 /1bch-farm/contracts/MasterChef.sol <- audit
   /1bch-farm/contracts/CakeToken.sol <- audit
   /1bch-swap-lib/contracts/token/BEP20/BEP20.sol  from pancakeswap, BSC version of openzeppelin ERC20.sol
@@ -46,30 +47,30 @@
 
 /1bch-swap-periphery/contracts/PancakeRouter.sol <- audit
   /1bch-swap-core/contracts/interfaces/IPancakeFactory.sol just an interface
-  /interfaces/IPancakeRouter02.sol just an interface
+  /1bch-swap-periphery/contracts/interfaces/IPancakeRouter02.sol just an interface
   
   /1bch-swap-lib/contracts/utils/TransferHelper.sol from pancakeswap
-  /libraries/PancakeLibrary.sol <- audit
+  /1bch-swap-periphery/contracts/libraries/PancakeLibrary.sol <- audit
     /1bch-swap-core/contracts/interfaces/IPancakePair.sol just an interface
     /1bch-swap-core/contracts/interfaces/IPancakeFactory.sol just an interface
 
-    /libraries/SafeMath.sol from openzepelin
+    /1bch-swap-periphery/contracts/libraries/SafeMath.sol from openzepelin
 
-  /libraries/SafeMath.sol from openzepelin
-  /interfaces/IERC20.sol from openzepelin
-  /interfaces/IWETH.sol from openzepelin
+  /1bch-swap-periphery/contracts/libraries/SafeMath.sol from openzepelin
+  /1bch-swap-periphery/contracts/interfaces/IERC20.sol from openzepelin
+  /1bch-swap-periphery/contracts/interfaces/IWETH.sol from openzepelin
 
 
-// sprinklers - no audit needed?
+// sprinklers
 /1bch-pool/contracts/SmartChefFactory.sol <- audit
   /1bch-pool/contracts/SmartChefInitializable.sol the actual sprinkler <- audit
 
-    /utils/Context.sol from openzeppelin
-    /access/Ownable.sol from openzeppelin
-    /math/SafeMath.sol from openzeppelin
-    /utils/ReentrancyGuard.sol from openzeppelin
-    /utils/Address.sol from openzeppelin
+    /1bch-pool/contracts/utils/Context.sol from openzeppelin
+    /1bch-pool/contracts/access/Ownable.sol from openzeppelin
+    /1bch-pool/contracts/math/SafeMath.sol from openzeppelin
+    /1bch-pool/contracts/utils/ReentrancyGuard.sol from openzeppelin
+    /1bch-pool/contracts/utils/Address.sol from openzeppelin
 
-    /token/BEP20/SafeBEP20.sol from pancakeswap, BSC version
+    /1bch-pool/contracts/token/BEP20/SafeBEP20.sol from pancakeswap, BSC version
     
-´´´
+```

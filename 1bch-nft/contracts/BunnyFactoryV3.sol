@@ -23,8 +23,6 @@
 // File: contracts/PancakeBunnies.sol
 // File: contracts/BunnyFactoryV2.sol
 
-// File: @openzeppelin/contracts/access/AccessControl.sol
-
 // File: contracts/BunnyMintingStation.sol
 
 // File: contracts/BunnyFactoryV3.sol

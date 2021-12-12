@@ -57,13 +57,13 @@ library PancakeLibrary {
 
     // given an output amount of an asset and pair reserves, returns a required input amount of the other asset
     function getAmountIn(address factory, address pair, uint amountOut, uint reserveIn, uint reserveOut) internal view returns (uint amountIn) {
-        uint outModifyer = 1000 - IPancakeFactory(factory).getExchangeFee(pair);
-        require(outModifyer <= 1000 && outModifyer >= 0, 'PancakeLibrary: INVALID_FEE'); // 1000 - 0%, 998 - 0.2%, 990 - 1%, 900 - 10%
+        uint inModifyer = 1000 - IPancakeFactory(factory).getExchangeFee(pair);
+        require(inModifyer <= 1000 && inModifyer >= 0, 'PancakeLibrary: INVALID_FEE'); // 1000 - 0%, 998 - 0.2%, 990 - 1%, 900 - 10%
         require(amountOut > 0, 'PancakeLibrary: INSUFFICIENT_OUTPUT_AMOUNT');
         require(reserveIn > 0 && reserveOut > 0, 'PancakeLibrary: INSUFFICIENT_LIQUIDITY');
         uint numerator = reserveIn.mul(amountOut).mul(1000);
         //uint denominator = reserveOut.sub(amountOut).mul(998);
-        uint denominator = reserveOut.sub(amountOut).mul(outModifyer);
+        uint denominator = reserveOut.sub(amountOut).mul(inModifyer);
         amountIn = (numerator / denominator).add(1);
     }
 
@@ -86,7 +86,7 @@ library PancakeLibrary {
         amounts[amounts.length - 1] = amountOut;
         for (uint i = path.length - 1; i > 0; i--) {
             (uint reserveIn, uint reserveOut) = getReserves(factory, path[i - 1], path[i]);
-            address pair = pairFor(factory, path[i], path[i + 1]);
+            address pair = pairFor(factory, path[i], path[i - 1]);
             amounts[i - 1] = getAmountIn(factory, pair, amounts[i], reserveIn, reserveOut);
         }
     }

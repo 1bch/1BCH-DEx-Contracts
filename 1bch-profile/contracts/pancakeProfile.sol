@@ -2,21 +2,20 @@
  *Submitted for verification at BscScan.com on 2021-02-04
 */
 
-// File: @openzeppelin/contracts/utils/EnumerableSet.sol
-// File: @openzeppelin/contracts/utils/Address.sol
-// File: @openzeppelin/contracts/GSN/Context.sol
-// File: @openzeppelin/contracts/access/AccessControl.sol
-// File: @openzeppelin/contracts/math/SafeMath.sol
-// File: @openzeppelin/contracts/utils/Counters.sol
-// File: @openzeppelin/contracts/introspection/IERC165.sol
-// File: @openzeppelin/contracts/token/ERC721/IERC721.sol
-// File: @openzeppelin/contracts/token/ERC721/IERC721Receiver.sol
-// File: @openzeppelin/contracts/token/ERC721/ERC721Holder.sol
+import './utils/EnumerableSet.sol';
+import './utils/Address.sol';
+import './GSN/Context.sol';
+import './access/AccessControl.sol';
+import './math/SafeMath.sol';
+import './utils/Counters.sol';
+import './introspection/IERC165.sol';
+import './token/ERC721/IERC721.sol';
+import './token/ERC721/IERC721Receiver.sol';
+import './token/ERC721/ERC721Holder.sol';
 
-// File: @pancakeswap/pancake-swap-lib/contracts/token/BEP20/IBEP20.sol
+import './token/BEP20/IBEP20.sol';
 
-// File: contracts/utils/SafeBEP20.sol
-// File: contracts/PancakeProfile.sol
+import './utils/SafeBEP20.sol';
 
 pragma solidity ^0.6.0;
 
